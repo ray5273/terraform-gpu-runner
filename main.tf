@@ -46,6 +46,9 @@ module "github_runner" {
     key_base64       = var.github_app_key_base64
     webhook_secret   = var.github_app_webhook_secret
   }
+  webhook_lambda_zip                = "lambdas-download/webhook.zip"
+  runner_binaries_syncer_lambda_zip = "lambdas-download/runner-binaries-syncer.zip"
+  runners_lambda_zip                = "lambdas-download/runners.zip"
 
   runner_os               = "linux"
   runner_architecture     = "x64"
