@@ -1,6 +1,25 @@
-# Terraform GitHub Runner (GPU) - us-east-1
+# Terraform GitHub Runner with VPC
 
-이 프로젝트는 GPU 기반 GitHub Actions Self-hosted Runner를 AWS `us-east-1` 리전에 배포하는 Terraform 코드입니다.
+## 구성 요소
+
+- VPC + Public Subnet 2개 자동 생성 (us-east-1a/b)
+- GitHub App 기반 Ephemeral Runner 배포
+- Terraform Cloud Backend 사용
+
+## 설정 방법
+
+1. GitHub App 생성 → App ID, Installation ID, Private Key 획득
+2. AWS IAM Access Key 발급 → Terraform Cloud에 환경변수로 등록
+3. `terraform.tfvars.example` 참고해서 입력
+4. Terraform Cloud 연결 후 실행
+
+## 필요 환경 변수 (Terraform Cloud)
+
+- `AWS_ACCESS_KEY_ID`
+- `AWS_SECRET_ACCESS_KEY`
+- `GITHUB_APP_ID`
+- `GITHUB_APP_INSTALLATION_ID`
+- `GITHUB_APP_PRIVATE_KEY`
 
 ## 실행 방법
 
@@ -8,14 +27,3 @@
 terraform init
 terraform apply
 ```
-
-## 주요 기능
-
-- GPU 인스턴스 (`g4dn.xlarge`)
-- Ephemeral runner (작업 시 생성 → 완료 시 자동 종료)
-- 오토스케일링 (0 ~ 1)
-
-## 사전 준비
-
-1. GitHub Personal Access Token (repo 권한 포함)
-2. AWS GPU 인스턴스 사용 승인 (EC2 Limits 확인)

@@ -4,8 +4,18 @@ variable "aws_region" {
   default     = "us-east-1"
 }
 
-variable "github_token" {
-  description = "GitHub Personal Access Token"
+variable "github_app_id" {
+  description = "GitHub App ID"
+  type        = string
+}
+
+variable "github_app_installation_id" {
+  description = "GitHub App Installation ID"
+  type        = string
+}
+
+variable "github_app_private_key" {
+  description = "GitHub App Private Key (PEM content)"
   type        = string
   sensitive   = true
 }
