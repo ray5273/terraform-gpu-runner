@@ -54,4 +54,12 @@ module "github_runner" {
   runner_architecture     = "x64"
   enable_ephemeral_runners = true
   enable_ssm_on_runners    = true
+
+  instance_type           = "g6e.xlarge"
+  min_running_instances   = 0
+  max_running_instances   = 1
+
+  scaling_down_delay_seconds = 300
+
+  runner_extra_labels     = ["gpu"]
 }
