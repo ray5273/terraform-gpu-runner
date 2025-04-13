@@ -55,27 +55,26 @@ module "github_runner" {
   enable_ephemeral_runners = true
   enable_ssm_on_runners    = true
 
-   runners = {
-      gpu_pool = {
-        instance_type        = "g6e.xlarge"
-        ami_filter           = { name = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"] }
-        ami_owners           = ["099720109477"] # Canonical
-        subnet_ids           = module.vpc.public_subnets
-        min_running_instances = 0
-        max_running_instances = 1
-        runner_extra_labels  = ["gpu"]
-      }
-    }
+    # runners 대신 ephemeral_runners 사용
+ ephemeral_runners = {
+   gpu_pool = {
+     instance_type        = "g6e.xlarge"
+     ami_filter           = { name = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"] }
+     ami_owners           = ["099720109477"] # Canonical
+     subnet_ids           = module.vpc.public_subnets
+     min_running_instances = 0
+     max_running_instances = 1
+     runner_extra_labels  = ["gpu"]
+   }
+ }
 
-    # 스케일링 관련 최적화 설정
-    scale_down_schedule_expression = "cron(*/5 * * * ? *)"
-    idle_config = [{
-      cron      = "* * * * *"
-      timeZone  = "UTC"
-      idleCount = 0
-    }]
+ # 스케일링 관련 최적화 설정
+ scale_down_schedule_expression = "cron(*/5 * * * ? *)"
+ idle_config = [{
+   cron      = "* * * * *"
+   timeZone  = "UTC"
+   idleCount = 0
+ }]
 
-    scaling_down_delay_seconds = 300
-
-    # defaults 섹션 제거 (runners 블록에서 직접 설정)
+     # scaling_down_delay_seconds 제거
 }
