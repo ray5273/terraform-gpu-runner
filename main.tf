@@ -41,9 +41,9 @@ module "github_runner" {
   subnet_ids = module.vpc.public_subnets
 
   github_app = {
-    id              = var.github_app_id
-    installation_id = var.github_app_installation_id
-    private_key     = var.github_app_private_key
+    id              = var.TF_VAR_github_app_id
+    installation_id = var.TF_VAR_github_app_installation_id
+    private_key     = var.TF_VAR_github_app_private_key
   }
 
   runner_os               = "linux"
