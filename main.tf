@@ -43,7 +43,8 @@ module "github_runner" {
   github_app = {
     id              = var.github_app_id
     installation_id = var.github_app_installation_id
-    private_key     = var.github_app_private_key
+    key_base64       = var.github_app_key_base64
+    webhook_secret   = var.github_app_webhook_secret
   }
 
   runner_os               = "linux"
