@@ -55,18 +55,9 @@ module "github_runner" {
   enable_ephemeral_runners = true
   enable_ssm_on_runners    = true
 
-    # runners 대신 ephemeral_runners 사용
- ephemeral_runners = {
-   gpu_pool = {
-     instance_type        = "g6e.xlarge"
-     ami_filter           = { name = ["ubuntu/images/hvm-ssd/ubuntu-focal-20.04-amd64-server-*"] }
-     ami_owners           = ["099720109477"] # Canonical
-     subnet_ids           = module.vpc.public_subnets
-     min_running_instances = 0
-     max_running_instances = 1
-     runner_extra_labels  = ["gpu"]
-   }
- }
+  instance_types = ["g6e.xlarge"]
+
+
 
  # 스케일링 관련 최적화 설정
  scale_down_schedule_expression = "cron(*/5 * * * ? *)"
