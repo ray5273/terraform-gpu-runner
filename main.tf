@@ -56,16 +56,31 @@ module "github_runner" {
   enable_ssm_on_runners    = true
 
   instance_types = ["g6e.xlarge"]
-
-
+  delay_webhook_event = 0
+  enable_job_queued_check = true
+  instance_target_capacity_type = "on-demand"
 
  # 스케일링 관련 최적화 설정
- scale_down_schedule_expression = "cron(*/5 * * * ? *)"
- idle_config = [{
-   cron      = "* * * * *"
-   timeZone  = "UTC"
-   idleCount = 0
- }]
+     scale_down_schedule_expression = "cron(*/5 * * * ? *)"
+     idle_config = [{
+       cron      = "* * * * *"
+       timeZone  = "UTC"
+       idleCount = 0
+     }]
+     runners_maximum_count = 1
 
      # scaling_down_delay_seconds 제거
+
+}
+
+module "webhook_github_app" {
+  source     = "github-aws-runners/github-runner/aws//modules/webhook-github-app"
+  depends_on = [module.github_runner]
+
+  github_app = {
+    key_base64     = var.github_app_key_base64
+    id             = var.github_app_id
+    webhook_secret = var.github_app_webhook_secret
+  }
+  webhook_endpoint = module.github_runner.webhook.endpoint
 }
